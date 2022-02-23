@@ -11,6 +11,10 @@ export interface IResponseUser {
   level: number,
   password: string,
 }
+
+export interface IBodyDecodedJWT {
+  data: IBodyJWT
+}
 export interface IBodyJWT {
   id: number,
   username: string

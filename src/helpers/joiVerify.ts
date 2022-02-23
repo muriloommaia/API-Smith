@@ -1,6 +1,6 @@
 import Joi, { ValidationError } from 'joi';
 import UnprocessableError from '../errors/UnprocessableError';
-import { IAddProduct, IAddUser, ILoginBody } from '../interfaces';
+import { IAddProduct, IAddUser, ILoginBody, IOrderCreate } from '../interfaces';
 
 const schemaAddUser = Joi.object({
   username: Joi.string().min(3).required().messages({
@@ -51,6 +51,15 @@ const schemaCreateProduct = Joi.object({
   }),
 });
 
+const schemaCreateOrder = Joi.object({
+  products: Joi.array().items(Joi.number().strict()).min(1).required()
+    .messages({
+      'any.required': 'Products is required', 
+      'number.base': 'Products must be an array of numbers', 
+      'array.min': 'Products can\'t be empty',
+    }),
+});
+
 const verifyUser = async (body: ILoginBody):Promise<IAddUser> => {
   try {
     const verify = await schemaAddUser.validateAsync(body);
@@ -82,8 +91,22 @@ const createAProduct = async (user: IAddProduct): Promise<IAddProduct> => {
   }
 };
 
+const createOrder = async (products: IOrderCreate): Promise<IOrderCreate> => {
+  try {
+    const verify = await schemaCreateOrder.validateAsync(products);
+    return verify;
+  } catch (error) {
+    const { message } = (error as ValidationError).details[0];
+    if (!message.includes('required')) {
+      throw new UnprocessableError(message);
+    }
+    throw error;
+  }
+};
+
 export = {
   verifyUser,
   verifyLogin,
   createAProduct,
+  createOrder,
 };

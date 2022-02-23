@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { IBodyJWT } from '../interfaces';
+import { IBodyDecodedJWT, IBodyJWT } from '../interfaces';
 
 dotenv.config();
 
@@ -16,7 +16,7 @@ const createToken = async (user:IBodyJWT) => {
   return token;
 };
 const verifyToken = (token: string):IBodyJWT => {
-  const decodedToken = jwt.decode(token) as IBodyJWT;
+  const { data: decodedToken } = jwt.decode(token) as IBodyDecodedJWT;
   return decodedToken;
 };
 // const userIdToken = (token) => {
