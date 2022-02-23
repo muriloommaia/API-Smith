@@ -7,6 +7,12 @@ const createProduct = async (body: IAddProduct) => {
   return bodyObject;
 };
 
+const getListProducts = async () => {
+  const response = await productModel.getListProduct();
+  return response;
+};
+
 export = {
   createProduct,
+  getListProducts,
 };

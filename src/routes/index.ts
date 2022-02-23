@@ -15,6 +15,7 @@ router.route('/login')
 router.use(auth);
 
 router.route('/products')
-  .post(productController.createProduct);
+  .post(productController.createProduct)
+  .get(productController.listProducts);
 
 export default router;
