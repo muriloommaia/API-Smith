@@ -2,6 +2,7 @@ import Joi, { ValidationError } from 'joi';
 import UnprocessableError from '../errors/UnprocessableError';
 // import ErrorClass from '../classes/ErrorClass';
 import { IAddUser } from '../interfaces';
+import { ILoginBody } from '../interfaces/ILogin';
 
 const schemaAddUser = Joi.object({
   username: Joi.string().min(3).required().messages({
@@ -27,7 +28,20 @@ const schemaAddUser = Joi.object({
   }),
 });
 
-const verifyUser = async (body: IAddUser):Promise<IAddUser> => {
+const schemaLoginVerify = Joi.object({
+  username: Joi.string().required().messages({
+    'any.required': 'Username is required', 
+    'string.base': 'Username must be a string', 
+    'string.min': 'Username must be longer than 2 characters',
+  }),
+  password: Joi.string().required().messages({
+    'any.required': 'Password is required', 
+    'string.base': 'Password must be a string', 
+    'string.min': 'Password must be longer than 7 characters',
+  }),
+});
+
+const verifyUser = async (body: ILoginBody):Promise<IAddUser> => {
   try {
     const verify = await schemaAddUser.validateAsync(body);
     return verify as IAddUser;
@@ -40,50 +54,12 @@ const verifyUser = async (body: IAddUser):Promise<IAddUser> => {
   }
 };
 
-// const verifyLogin = (body) => {
-//   const schema = Joi.object().keys({
-//     email: Joi.string().required().email().message(messages.invalidEmail),
-//     password: Joi.string().required().min(6).message(messages.passwordLength),
-//   });
-
-//   const verify = schema.validate(body);
-//   if (verify.error) {
-//     return { error: verify.error.details[0].message };
-//   }
-//   return {};
-// };
-
-// const verifyPost = (body) => {
-//   const schema = Joi.object().keys({
-//     title: Joi.string().required(),
-//     content: Joi.string().required(),
-//     categoryIds: Joi.array().required(),
-//   });
-
-//   const verify = schema.validate(body);
-//   if (verify.error) {
-//     return { error: verify.error.details[0].message };
-//   }
-//   return {};
-// };
-
-// const verifyUpdate = (body) => {
-//   const schema = Joi.object().keys({
-//     title: Joi.string().required(),
-//     content: Joi.string().required(),
-//     categoryIds: Joi.array().length(0).message(messages.editCategory),
-//   });
-
-//   const verify = schema.validate(body);
-//   if (verify.error) {
-//     return { error: verify.error.details[0].message };
-//   }
-//   return {};
-// };
+const verifyLogin = async (user: ILoginBody): Promise<ILoginBody> => {
+  const verify = await schemaLoginVerify.validateAsync(user);
+  return verify as ILoginBody;
+};
 
 export = {
   verifyUser,
-  // verifyLogin,
-  // verifyPost,
-  // verifyUpdate,
+  verifyLogin,
 };
