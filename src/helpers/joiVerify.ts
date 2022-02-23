@@ -1,5 +1,5 @@
 import Joi, { ValidationError } from 'joi';
-import BadRequestError from '../errors/UnprocessableError';
+import UnprocessableError from '../errors/UnprocessableError';
 // import ErrorClass from '../classes/ErrorClass';
 import { IAddUser } from '../interfaces';
 
@@ -26,6 +26,7 @@ const schemaAddUser = Joi.object({
     'string.min': 'Password must be longer than 7 characters',
   }),
 });
+
 const verifyUser = async (body: IAddUser):Promise<IAddUser> => {
   try {
     const verify = await schemaAddUser.validateAsync(body);
@@ -33,7 +34,7 @@ const verifyUser = async (body: IAddUser):Promise<IAddUser> => {
   } catch (error) {
     const { message } = (error as ValidationError).details[0];
     if (!message.includes('required')) {
-      throw new BadRequestError(message);
+      throw new UnprocessableError(message);
     }
     throw error;
   }
