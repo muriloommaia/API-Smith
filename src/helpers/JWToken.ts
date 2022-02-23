@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { IBodyDecodedJWT, IBodyJWT } from '../interfaces';
+import UnauthorizedError from '../errors/UnauthorizedError';
+import { IBodyJWT } from '../interfaces';
 
 dotenv.config();
 
@@ -15,9 +16,13 @@ const createToken = async (user:IBodyJWT) => {
   const token = jwt.sign({ data: user }, SECRET, jwtConfig);
   return token;
 };
-const verifyToken = (token: string):IBodyJWT => {
-  const { data: decodedToken } = jwt.decode(token) as IBodyDecodedJWT;
-  return decodedToken;
+const verifyToken = (token: string): IBodyJWT => {
+  try {
+    const decodedToken = jwt.verify(token, SECRET) as IBodyJWT;
+    return decodedToken;
+  } catch (error) {
+    throw new UnauthorizedError('Invalid token');
+  }
 };
 // const userIdToken = (token) => {
 //   const { data: { id } } = jwt.decode(token, SECRET);

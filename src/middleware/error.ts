@@ -16,7 +16,7 @@ const errorMiddleware = (
     case 'ValidationError': return res.status(400).json({ error });
     case BadRequestError.name: return res.status(400).json({ error });
     case UnauthorizedError.name: return res.status(401).json({ error });
-    default: res.status(500).json({ error: { message: 'Internal Server Error', code: 500 } });
+    default: res.status(500).json({ error: { message: 'Internal Server Error', code: 500, name } });
   }
 };
 
