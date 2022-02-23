@@ -52,10 +52,12 @@ const schemaCreateProduct = Joi.object({
 });
 
 const schemaCreateOrder = Joi.object({
-  products: Joi.array().items(Joi.number().strict()).min(1).required()
+  products: Joi.array().items(Joi.number().strict()).strict().min(1)
+    .required()
     .messages({
       'any.required': 'Products is required', 
       'number.base': 'Products must be an array of numbers', 
+      'array.base': 'Products must be an array of numbers',
       'array.min': 'Products can\'t be empty',
     }),
 });
