@@ -4,7 +4,7 @@ import { IBodyJWT } from '../interfaces';
 import { ILoginBody } from '../interfaces/ILogin';
 import loginModel from '../models/loginModel';
 
-const loginUser = async (body: ILoginBody) => {
+const createProduct = async (body: ILoginBody) => {
   const response = await loginModel.findUser(body);
   if (!response.length) { throw new UnauthorizedError('Username or password invalid'); } 
   const { id, username } = response[0];
@@ -14,5 +14,5 @@ const loginUser = async (body: ILoginBody) => {
 };
 
 export = {
-  loginUser,
+  createProduct,
 };
