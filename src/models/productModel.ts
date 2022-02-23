@@ -1,12 +1,11 @@
-import { IResponseUser } from '../interfaces';
-import { ILoginBody } from '../interfaces/ILogin';
+import { IAddProduct } from '../interfaces';
 import db from './knex';
 
-const findUser = async (user: ILoginBody):Promise<IResponseUser[]> => {
-  const response = await db('Users').select('*').where(user);
+const createProduct = async (product: IAddProduct):Promise<number> => {
+  const [response] = await db('Products').insert(product);
   return response;
 };
 
 export = {
-  findUser,
+  createProduct,
 };

@@ -1,8 +1,6 @@
 import Joi, { ValidationError } from 'joi';
 import UnprocessableError from '../errors/UnprocessableError';
-// import ErrorClass from '../classes/ErrorClass';
-import { IAddUser } from '../interfaces';
-import { ILoginBody } from '../interfaces/ILogin';
+import { IAddProduct, IAddUser, ILoginBody } from '../interfaces';
 
 const schemaAddUser = Joi.object({
   username: Joi.string().min(3).required().messages({
@@ -40,6 +38,18 @@ const schemaLoginVerify = Joi.object({
     'string.min': 'Password must be longer than 7 characters',
   }),
 });
+const schemaCreateProduct = Joi.object({
+  name: Joi.string().min(3).required().messages({
+    'any.required': 'Name is required', 
+    'string.base': 'Name must be a string', 
+    'string.min': 'Name must be longer than 2 characters',
+  }),
+  amount: Joi.string().min(3).required().messages({
+    'any.required': 'Amount is required', 
+    'string.base': 'Amount must be a string', 
+    'string.min': 'Amount must be longer than 2 characters',
+  }),
+});
 
 const verifyUser = async (body: ILoginBody):Promise<IAddUser> => {
   try {
@@ -59,7 +69,21 @@ const verifyLogin = async (user: ILoginBody): Promise<ILoginBody> => {
   return verify as ILoginBody;
 };
 
+const createAProduct = async (user: IAddProduct): Promise<IAddProduct> => {
+  try {
+    const verify = await schemaCreateProduct.validateAsync(user);
+    return verify;
+  } catch (error) {
+    const { message } = (error as ValidationError).details[0];
+    if (!message.includes('required')) {
+      throw new UnprocessableError(message);
+    }
+    throw error;
+  }
+};
+
 export = {
   verifyUser,
   verifyLogin,
+  createAProduct,
 };

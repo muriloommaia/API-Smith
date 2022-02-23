@@ -15,8 +15,8 @@ const createToken = async (user:IBodyJWT) => {
   const token = jwt.sign({ data: user }, SECRET, jwtConfig);
   return token;
 };
-const verifyToken = (token: string) => {
-  const decodedToken = jwt.decode(token);
+const verifyToken = (token: string):IBodyJWT => {
+  const decodedToken = jwt.decode(token) as IBodyJWT;
   return decodedToken;
 };
 // const userIdToken = (token) => {

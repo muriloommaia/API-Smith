@@ -3,9 +3,9 @@ import joiVerify from '../helpers/joiVerify';
 import productService from '../services/productService';
 
 const createProduct = async (req:Request, res: Response) => {
-  const verify = await joiVerify.verifyLogin(req.body);
-  const token = await productService.createProduct(verify);
-  res.status(200).json({ token });
+  const verify = await joiVerify.createAProduct(req.body);
+  const response = await productService.createProduct(verify);
+  res.status(201).json(response);
 };
 
 export = {
