@@ -2,7 +2,7 @@ import { ISingleProduct } from '../interfaces';
 import db from './knex';
 
 const createOrder = async (userId: number):Promise<number> => {
-  const [response] = await db('Orders').insert({ userId });
+  const [response] = await db.insert({ userId }).into('Orders');
   return response;
 };
 

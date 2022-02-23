@@ -12,12 +12,6 @@ const createOrder = async (req:Request, res: Response) => {
   res.status(201).json(response);
 };
 
-// const listProducts = async (req: Request, res: Response) => {
-//   const response = await productService.getListProducts();
-//   res.status(200).json(response);
-// };
-
 export = {
   createOrder,
-  // listProducts,
 };
