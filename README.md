@@ -94,3 +94,13 @@ npm start
 or
 yarn start
 ```
+
+**Utilizando VS Code**
+Caso esteja utilizando o VS Code, em termos de desenvolvimento você pode iniciar o servidor através do comando:
+```shell
+npm run dev:server
+or
+yarn dev:server
+```
+
+Ou então, pode utilizar o Launch da aba de `Run and Debug`, ou apertando a tecla *F5*;
