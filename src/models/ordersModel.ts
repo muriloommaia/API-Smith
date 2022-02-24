@@ -1,4 +1,4 @@
-import { ISingleProduct } from '../interfaces';
+import { IOrderByJoin } from '../interfaces';
 import db from './knex';
 
 const createOrder = async (userId: number):Promise<number> => {
@@ -6,12 +6,15 @@ const createOrder = async (userId: number):Promise<number> => {
   return response;
 };
 
-const getListProduct = async ():Promise<ISingleProduct[]> => {
-  const response = await db('Orders').select('*');
+const getListProductById = async (id: number): Promise<IOrderByJoin[]> => {
+  const response:IOrderByJoin[] = await db('Orders')
+    .join('Products', 'Orders.id', 'Products.orderId')
+    .select('Orders.id', 'Orders.userId', 'Products.id')
+    .where('Orders.id', id);
   return response;
 };
 
 export = {
   createOrder,
-  getListProduct,
+  getListProductById,
 };

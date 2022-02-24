@@ -1,4 +1,5 @@
 import BadRequestError from '../errors/BadRequestError';
+import NotFoundError from '../errors/NotFoundError';
 import { IOrderCreatePost } from '../interfaces';
 import ordersModel from '../models/ordersModel';
 import productModel from '../models/productModel';
@@ -14,9 +15,12 @@ const createOrder = async (products: number[], userId: number) => {
   return bodyObject;
 };
 
-const getOrderById = async () => {
-  const response = await productModel.getListProduct();
-  return response;
+const getOrderById = async (id: number, userId:number) => {
+  const response = await ordersModel.getListProductById(id);
+  const products = response.map((item) => item.id);
+  if (!products.length) throw new NotFoundError('Order not found');
+  const bodyResponse = { id, userId, products };
+  return bodyResponse;
 };
 
 export = {
