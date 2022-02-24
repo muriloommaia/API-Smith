@@ -19,6 +19,8 @@ router.route('/products')
   .post(productController.createProduct)
   .get(productController.listProducts);
 
+router.route('/orders/:id')
+  .get();
 router.route('/orders')
   .post(ordersController.createOrder);
 

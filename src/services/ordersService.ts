@@ -9,10 +9,8 @@ const createOrder = async (products: number[], userId: number) => {
   const someProductDoesNotExist = allPromises.some((arr) => !arr.length);
   if (someProductDoesNotExist) throw new BadRequestError('Product doesn\'t exits');
   const id = await ordersModel.createOrder(userId);
-  console.log(id);
+  await Promise.all(products.map((idProd) => productModel.insertOrder(idProd, id)));
   const bodyObject: IOrderCreatePost = { order: { userId, products } };
-  
-  // const id = await ordersModel.createOrder(body);
   return bodyObject;
 };
 

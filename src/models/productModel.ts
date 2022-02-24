@@ -16,8 +16,13 @@ const findOneProduct = async (id: number): Promise<ISingleProduct[]> => {
   return response;
 };
 
+const insertOrder = async (id: number, orderId: number) => {
+  const response = await db('Products').update({ orderId }).where({ id });
+  return response;
+};
 export = {
   createProduct,
   getListProduct,
   findOneProduct,
+  insertOrder,
 };
