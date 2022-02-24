@@ -20,7 +20,7 @@ router.route('/products')
   .get(productController.listProducts);
 
 router.route('/orders/:id')
-  .get();
+  .get(ordersController.getOrderById);
 router.route('/orders')
   .post(ordersController.createOrder);
 

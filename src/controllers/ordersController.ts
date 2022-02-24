@@ -12,6 +12,14 @@ const createOrder = async (req:Request, res: Response) => {
   res.status(201).json(response);
 };
 
+const getOrderById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const authorization = req.headers.authorization as string;
+  const { id: userId } = JWToken.verifyToken(authorization);
+  const response = await ordersService.getOrderById(+id, userId);
+  res.status(200).json(response);
+};
 export = {
   createOrder,
+  getOrderById,
 };

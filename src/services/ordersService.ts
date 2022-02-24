@@ -14,12 +14,12 @@ const createOrder = async (products: number[], userId: number) => {
   return bodyObject;
 };
 
-// const getListProducts = async () => {
-//   const response = await productModel.getListProduct();
-//   return response;
-// };
+const getOrderById = async () => {
+  const response = await productModel.getListProduct();
+  return response;
+};
 
 export = {
   createOrder,
-  // getListProducts,
+  getOrderById,
 };
