@@ -1,6 +1,6 @@
 import BadRequestError from '../errors/BadRequestError';
 import NotFoundError from '../errors/NotFoundError';
-import { IOrderCreatePost } from '../interfaces';
+import { IOrderById, IOrderCreatePost } from '../interfaces';
 import ordersModel from '../models/ordersModel';
 import productModel from '../models/productModel';
 
@@ -17,13 +17,32 @@ const createOrder = async (products: number[], userId: number) => {
 
 const getOrderById = async (id: number, userId:number) => {
   const response = await ordersModel.getListProductById(id);
+  if (!response.length) throw new NotFoundError('Order not found');
   const products = response.map((item) => item.id);
-  if (!products.length) throw new NotFoundError('Order not found');
   const bodyResponse = { id, userId, products };
   return bodyResponse;
+};
+const getAllOrders = async () => {
+  const response = await ordersModel.getAllOrders();
+  if (!response.length) throw new NotFoundError('Order not found');
+  const products = response.reduce((acc, { orderId, userId, id }) => {
+    if (acc.some((item) => item.id === orderId)) {
+      const idx = acc.findIndex((order) => order.id === orderId);
+      acc[idx].products.push(id);
+    } else {
+      acc.push({
+        id: orderId,
+        userId,
+        products: [id],
+      });
+    }
+    return acc;
+  }, [] as IOrderById[]);
+  return products;
 };
 
 export = {
   createOrder,
   getOrderById,
+  getAllOrders,
 };

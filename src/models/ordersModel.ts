@@ -9,12 +9,20 @@ const createOrder = async (userId: number):Promise<number> => {
 const getListProductById = async (id: number): Promise<IOrderByJoin[]> => {
   const response:IOrderByJoin[] = await db('Orders')
     .join('Products', 'Orders.id', 'Products.orderId')
-    .select('Orders.id', 'Orders.userId', 'Products.id')
+    .select('Orders.id as orderId', 'Orders.userId', 'Products.id')
     .where('Orders.id', id);
+  return response;
+};
+
+const getAllOrders = async (): Promise<IOrderByJoin[]> => {
+  const response:IOrderByJoin[] = await db('Orders')
+    .join('Products', 'Orders.id', 'Products.orderId')
+    .select('Orders.id as orderId', 'Orders.userId', 'Products.id');
   return response;
 };
 
 export = {
   createOrder,
   getListProductById,
+  getAllOrders,
 };

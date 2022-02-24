@@ -19,7 +19,13 @@ const getOrderById = async (req: Request, res: Response) => {
   const response = await ordersService.getOrderById(+id, userId);
   res.status(200).json(response);
 };
+
+const getAllOrders = async (req: Request, res: Response) => {
+  const response = await ordersService.getAllOrders();
+  res.status(200).json(response);
+};
 export = {
   createOrder,
   getOrderById,
+  getAllOrders,
 };

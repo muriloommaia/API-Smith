@@ -22,6 +22,7 @@ router.route('/products')
 router.route('/orders/:id')
   .get(ordersController.getOrderById);
 router.route('/orders')
-  .post(ordersController.createOrder);
+  .post(ordersController.createOrder)
+  .get(ordersController.getAllOrders);
 
 export default router;

@@ -10,6 +10,7 @@ const errorMiddleware = (
   res: Response,
   _next: NextFunction,
 ) => {
+  console.log(err);
   const { name, message: error } = err as ValidationError;
   switch (name) {
     case UnprocessableError.name: return res.status(422).json({ error });

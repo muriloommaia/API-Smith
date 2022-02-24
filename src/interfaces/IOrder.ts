@@ -11,8 +11,9 @@ export interface IOrderCreatePost {
 }
 
 export interface IOrderByJoin {
-  id: number,
+  orderId: number,
   userId: number,
+  id: number,
 }
 
 export interface IOrderById {
