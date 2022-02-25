@@ -10,7 +10,7 @@ const jwtConfig: SignOptions = {
   algorithm: 'HS256',
 };
 
-const SECRET = process.env.JWT_SECRET;
+const SECRET = process.env.JWT_SECRET as string;
 
 const createToken = async (user:IBodyJWT) => {
   const token = jwt.sign({ data: user }, SECRET, jwtConfig);
